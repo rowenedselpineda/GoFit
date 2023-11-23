@@ -1,0 +1,7 @@
+<!-- class_delete.html or program_delete.html -->
+<h2>Confirmation</h2>
+<p>Are you sure you want to delete {{ class.name }}?</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+</form>

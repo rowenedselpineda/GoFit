@@ -1,0 +1,28 @@
+<!-- class_detail.html -->
+<h3>{{ fitness_class.name }}</h3>
+<p>Instructor: {{ fitness_class.instructor }}</p>
+<p>Schedule: {{ fitness_class.schedule }}</p>
+<p>Description: {{ fitness_class.description }}</p>
+
+{% if user.is_authenticated %}
+  {% with membership=fitness_class.membership_set.filter(user=user).first %}
+    {% if membership %}
+      {% if membership.is_member %}
+        <form action="{% url 'leave_class' membership.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit">Leave</button>
+        </form>
+      {% else %}
+        <form action="{% url 'apply_class' membership.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit">Apply</button>
+        </form>
+      {% endif %}
+    {% else %}
+      <form action="{% url 'apply_class' fitness_class.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Apply</button>
+      </form>
+    {% endif %}
+  {% endwith %}
+{% endif %}
